@@ -2,15 +2,10 @@ This project is meant to scrape data from one or multiple PDFs containing data. 
 
 This data will be scraped and then compiled into a CSV of the following form:
 
-Given n PDFs, each representing 1 sample...
-Given m analytes...
+internal_standard_name, sample_id_**1**, retention_time, response
 
-internal_standard_name, sample_id_0, retention_time, response
-... [For n samples]
-internal_standard_name, sample_id_n, retention_time, response
+analyte_1, sample_id_**1**, retention_time, response
 
-[For m analytes]
-analyte_0, sample_id_0, retention_time, response
-... [For 0 to n samples]
-analyte_0, sample_id_n, retention_time, response
-[End m analytes loop]
+...
+
+analyte_n, sample_id_**n**, retention_time, response
