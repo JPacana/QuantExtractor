@@ -55,7 +55,7 @@ namespace QuantExtractor
                 {
                     var retentionTime = s.RetentionTimes[analyte];
                     var response = s.Responses[analyte];
-                    writer.WriteLine(analyte + "," + s.Id + "," + retentionTime + "," + response);
+                    writer.WriteLine(analyte + "," + s.Id + "," + retentionTime + "," + ((response == -1) ? "N.D." : response));
                 }
                 writer.WriteLine();
 
@@ -89,10 +89,14 @@ namespace QuantExtractor
             sample.RetentionTimes["Codeine"] = float.Parse(list[iCodeine + 1]);
             sample.RetentionTimes["Thebaine"] = float.Parse(list[iThebaine + 1]);
 
-            sample.Responses["Morphine-D3"] = Int32.Parse(list[iInternalStandard + 3]);
-            sample.Responses["Morphine"] = Int32.Parse(list[iMorphine + 3]);
-            sample.Responses["Codeine"] = Int32.Parse(list[iCodeine + 3]);
-            sample.Responses["Thebaine"] = Int32.Parse(list[iThebaine + 3]);
+            sample.Responses["Morphine-D3"] =
+                list[iInternalStandard + 3] == "N.D." ? -1 : Int32.Parse(list[iInternalStandard + 3]);
+            sample.Responses["Morphine"] =
+                list[iMorphine + 3] == "N.D." ? -1 : Int32.Parse(list[iMorphine + 3]);
+            sample.Responses["Codeine"] =
+                list[iCodeine + 3] == "N.D." ? -1 : Int32.Parse(list[iCodeine+ 3]);
+            sample.Responses["Thebaine"] =
+                list[iThebaine + 3] == "N.D." ? -1 : Int32.Parse(list[iThebaine + 3]);
 
             return sample;
         }
