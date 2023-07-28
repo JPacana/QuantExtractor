@@ -5,10 +5,13 @@ using System.Text.RegularExpressions;
 using PdfSharp;
 using System.Windows.Forms;
 using PdfSharp.Drawing;
-using PdfSharp.Pdf;
+//using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using QuantExtractor;
 using System.Globalization;
+using System.Text;
+using UglyToad.PdfPig;
+using UglyToad.PdfPig.Content;
 
 namespace QuantExtractor
 {
@@ -64,7 +67,23 @@ namespace QuantExtractor
 
         private static string OpenPdf(string filePath)
         {
-            return PdfTextract.PdfTextExtractor.GetText(filePath);
+            //return PdfTextract.PdfTextExtractor.GetText(filePath);
+            StringBuilder sb = new StringBuilder();
+            using (PdfDocument document = PdfDocument.Open(filePath))
+            {
+                foreach (Page page in document.GetPages())
+                {
+                    IReadOnlyList<Letter> letters = page.Letters;
+                    string example = string.Join(string.Empty, letters.Select(x => x.Value));
+                    sb.Append(example);
+
+                    //IEnumerable<Word> words = page.GetWords();
+
+                    //IEnumerable<IPdfImage> images = page.GetImages();
+                }
+            }
+
+            return sb.ToString();
         }
 
         private static Sample ExtractSampleData(string filename)
